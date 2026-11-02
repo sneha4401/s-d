@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I have something to tell you</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#2b1233;--bg2:#4a1d4f;--ink:#ffe9ef;--soft:#f3b6c8;--accent:#ff6f91;--gold:#ffd27a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(ellipse at 50% 20%,var(--bg2),var(--bg) 70%);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;overflow:hidden}
+main{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;position:relative}
+h1{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.6rem,9vw,4.6rem);line-height:1.05;margin:0 0 .4em;max-width:14ch}
+p{margin:0 0 1.6em;color:var(--soft);font-size:1.05rem;max-width:30ch;line-height:1.5}
+.row{display:flex;gap:16px;align-items:center;justify-content:center;min-height:64px}
+button{font:500 1.1rem 'DM Sans',sans-serif;border:0;border-radius:999px;padding:14px 34px;cursor:pointer;transition:transform .15s}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+#yes{background:var(--accent);color:#2b1233}
+#yes:hover{transform:scale(1.06)}
+#no{background:transparent;color:var(--soft);border:1.5px solid var(--soft);position:relative}
+.hidden{display:none}
+#reveal h1{font-size:clamp(3.4rem,13vw,6.4rem);max-width:none;color:var(--gold)}
+#reveal p{font-size:1.2rem;max-width:26ch}
+#reveal .big{animation:beat 1.4s ease-in-out infinite;display:inline-block;font-size:3.4rem;margin-bottom:.2em}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.fall{position:fixed;top:-2rem;pointer-events:none;animation:drop linear forwards}
+@keyframes drop{to{transform:translateY(110vh) rotate(40deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){#reveal .big{animation:none}.fall{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <section id="ask">
+    <h1>Can I tell you something?</h1>
+    <p>It’s important. It’s only for you.</p>
+    <div class="row">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+  </section>
+  <section id="reveal" class="hidden">
+    <div class="big" aria-hidden="true">♥</div>
+    <h1>I love you.</h1>
+    <p>More than I say out loud. Thank you for being mine.</p>
+  </section>
+</main>
+<script>
+(function(){
+  var yes=document.getElementById('yes'),no=document.getElementById('no');
+  var lines=['Are you sure?','Think again…','Try the other one','Nope, not allowed','Please? 🥺'];
+  var n=0;
+  function dodge(e){
+    if(e&&e.preventDefault)e.preventDefault();
+    no.textContent=lines[n%lines.length];n++;
+    no.style.position='fixed';
+    var w=window.innerWidth,h=window.innerHeight;
+    var bw=no.offsetWidth,bh=no.offsetHeight;
+    no.style.left=Math.max(8,Math.random()*(w-bw-16))+'px';
+    no.style.top=Math.max(8,Math.random()*(h-bh-16))+'px';
+    yes.style.transform='scale('+Math.min(1+n*0.12,1.8)+')';
+  }
+  no.addEventListener('mouseenter',dodge);
+  no.addEventListener('touchstart',dodge,{passive:false});
+  no.addEventListener('click',dodge);
+  yes.addEventListener('click',function(){
+    document.getElementById('ask').classList.add('hidden');
+    no.classList.add('hidden');
+    document.getElementById('reveal').classList.remove('hidden');
+    for(var i=0;i<40;i++){
+      var s=document.createElement('span');
+      s.className='fall';s.textContent=Math.random()>.3?'♥':'✦';
+      s.style.left=Math.random()*100+'vw';
+      s.style.color=Math.random()>.5?'#ff6f91':'#ffd27a';
+      s.style.fontSize=(14+Math.random()*26)+'px';
+      s.style.animationDuration=(3+Math.random()*4)+'s';
+      s.style.animationDelay=(Math.random()*2)+'s';
+      document.body.appendChild(s);
+    }
+  });
+})();
+</script>
+</body>
+</html>
