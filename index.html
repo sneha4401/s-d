@@ -3,83 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>My cutuuu, I have something to tell you</title>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<title>For Cutuu Dhiru</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#2b1233;--bg2:#4a1d4f;--ink:#ffe9ef;--soft:#f3b6c8;--accent:#ff6f91;--gold:#ffd27a;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*,*::before,*::after{box-sizing:inherit}
+:root{color-scheme:dark;--night:#0d0b2a;--glow:#3a1b52;--moon:#ffe3a3;--rose:#ff8fb1;--mist:#cfc8f5;--ink:#fff4f0}
+*,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;margin:0}
-body{background:radial-gradient(ellipse at 50% 20%,var(--bg2),var(--bg) 70%);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;overflow:hidden}
-main{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;position:relative}
-h1{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.6rem,9vw,4.6rem);line-height:1.05;margin:0 0 .4em;max-width:14ch}
-p{margin:0 0 1.6em;color:var(--soft);font-size:1.05rem;max-width:30ch;line-height:1.5}
-.row{display:flex;gap:16px;align-items:center;justify-content:center;min-height:64px}
-button{font:500 1.1rem 'DM Sans',sans-serif;border:0;border-radius:999px;padding:14px 34px;cursor:pointer;transition:transform .15s}
-button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-#yes{background:var(--accent);color:#2b1233}
-#yes:hover{transform:scale(1.06)}
-#no{background:transparent;color:var(--soft);border:1.5px solid var(--soft);position:relative}
-.hidden{display:none}
-#reveal h1{font-size:clamp(2.8rem,11vw,5.4rem);max-width:12ch;color:var(--gold)}
-#reveal p{font-size:1.2rem;max-width:28ch}
-#reveal .big{animation:beat 1.4s ease-in-out infinite;display:inline-block;font-size:3.4rem;margin-bottom:.2em}
-@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
-.fall{position:fixed;top:-2rem;pointer-events:none;animation:drop linear forwards}
-@keyframes drop{to{transform:translateY(110vh) rotate(40deg);opacity:.2}}
-@media (prefers-reduced-motion:reduce){#reveal .big{animation:none}.fall{display:none}}
+body{background:radial-gradient(ellipse at 50% 110%,var(--glow),var(--night) 65%);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.scene{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+padding:calc(28px + env(safe-area-inset-top,0px)) 28px calc(28px + env(safe-area-inset-bottom,0px));opacity:0;pointer-events:none;transition:opacity .9s}
+.scene.on{opacity:1;pointer-events:auto}
+.hand{font-family:'Caveat',cursive;font-weight:600;margin:0;line-height:1.05}
+.big{font-size:clamp(3.6rem,17vw,7rem);color:var(--moon);text-shadow:0 0 30px rgba(255,227,163,.45)}
+.mid{font-size:clamp(2.4rem,10vw,4rem);color:var(--rose)}
+.sub{font-size:clamp(1.3rem,5vw,1.8rem);color:var(--mist);margin:.3em 0 1.6em;font-style:italic}
+.line{font-style:italic;font-weight:500;font-size:clamp(1.6rem,6.2vw,2.5rem);line-height:1.3;max-width:20ch;min-height:5.2em;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .7s,transform .7s}
+.line.in{opacity:1;transform:none}
+.small{font-style:italic;font-size:clamp(1.15rem,4.4vw,1.5rem);color:var(--mist);max-width:28ch;line-height:1.35;margin:.8em 0 1.2em}
+button{font:italic 600 1.35rem 'Cormorant Garamond',Georgia,serif;color:var(--ink);background:rgba(255,143,177,.16);border:1.5px solid var(--rose);border-radius:999px;padding:12px 30px;cursor:pointer;margin:6px;touch-action:manipulation;transition:background .2s,transform .2s}
+button:hover{background:rgba(255,143,177,.32)}
+button:focus-visible{outline:3px solid var(--moon);outline-offset:3px}
+#hold{touch-action:none;user-select:none;-webkit-user-select:none;font-size:1.5rem;padding:16px 36px}
+#hold:active{transform:scale(.96)}
+#s2,#s3{justify-content:flex-end;padding-bottom:calc(9vh + env(safe-area-inset-bottom,0px))}
+#hint{min-height:2.8em;margin-bottom:.8em}
+#after{min-height:4.5em}
+.hide{display:none!important}
+.rise{position:fixed;bottom:-2rem;pointer-events:none;z-index:5;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-115vh) rotate(-20deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.rise{display:none}}
 </style>
 </head>
 <body>
-<main>
-  <section id="ask">
-    <h1>Dhirendra, can I tell you something?</h1>
-    <p>It’s important. It’s only for you, my jaan.</p>
-    <div class="row">
-      <button id="yes">Yes</button>
-      <button id="no">No</button>
-    </div>
-  </section>
-  <section id="reveal" class="hidden">
-    <div class="big" aria-hidden="true">♥</div>
-    <h1>I love you, Dhirendra.</h1>
-    <p>You are my cutee, my jaan. More than I say out loud. Thank you for being mine.</p>
-  </section>
-</main>
+<canvas id="sky"></canvas>
+
+<section class="scene on" id="s0">
+  <div class="sub" style="margin:0">for</div>
+  <h1 class="hand big">Cutuu Dhiru</h1>
+  <div class="sub">my baby, my jaan</div>
+  <button id="open">Open ♥</button>
+</section>
+
+<section class="scene" id="s1">
+  <div class="line" id="line"></div>
+  <button id="next">Tap to continue</button>
+</section>
+
+<section class="scene" id="s2">
+  <p class="small" id="hint"></p>
+  <button id="hold">Hold to bring us together</button>
+</section>
+
+<section class="scene" id="s3">
+  <h2 class="hand mid">I’m sorry, my baby</h2>
+  <p class="small">For every hurtful thing I said. It was never my heart. My heart just feels lonely and bad without you, my jaan.</p>
+  <h2 class="hand mid" style="font-size:clamp(2rem,8vw,3rem);color:var(--moon)">Will you forgive me?</h2>
+  <div id="after" class="small"></div>
+  <div id="choices">
+    <button id="yes">Yes, my love</button>
+    <button id="wait">Give me a minute</button>
+  </div>
+</section>
+
 <script>
 (function(){
-  var yes=document.getElementById('yes'),no=document.getElementById('no');
-  var lines=['Are you sure?','Think again…','Try the other one','Nope, not allowed','Please? 🥺'];
-  var n=0;
-  function dodge(e){
-    if(e&&e.preventDefault)e.preventDefault();
-    no.textContent=lines[n%lines.length];n++;
-    no.style.position='fixed';
-    var w=window.innerWidth,h=window.innerHeight;
-    var bw=no.offsetWidth,bh=no.offsetHeight;
-    no.style.left=Math.max(8,Math.random()*(w-bw-16))+'px';
-    no.style.top=Math.max(8,Math.random()*(h-bh-16))+'px';
-    yes.style.transform='scale('+Math.min(1+n*0.12,1.8)+')';
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var cv=document.getElementById('sky'),ctx=cv.getContext('2d'),W=0,H=0,stars=[];
+function size(){var d=window.devicePixelRatio||1;W=window.innerWidth;H=window.innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+size();window.addEventListener('resize',size);
+for(var i=0;i<150;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,ph:Math.random()*6.28,sp:reduce?0:Math.random()*1.6+.4});
+
+var scene=0,p=0,holding=false,merged=false,orbA=0,mergeT=0,last=performance.now();
+var scenes=[0,1,2,3].map(function(n){return document.getElementById('s'+n)});
+function go(n){scenes.forEach(function(s,i){s.classList.toggle('on',i===n)});scene=n;if(n===1)showLine(0)}
+
+/* letter */
+var lines=["Cutuu Dhiru… my baby, my jaan.","Sometimes I say bad things to you.","I know they hurt. I hate that they do.","But those words never come from my heart.","My heart just feels lonely, and bad, without you.","So I made something for you. It needs your help."];
+var idx=0,lineEl=document.getElementById('line'),nextBtn=document.getElementById('next');
+function showLine(i){idx=i;lineEl.classList.remove('in');setTimeout(function(){lineEl.textContent=lines[i];lineEl.classList.add('in')},reduce?0:400);nextBtn.textContent=i===lines.length-1?'Okay, baby ♥':'Tap to continue'}
+nextBtn.addEventListener('click',function(){if(idx<lines.length-1)showLine(idx+1);else go(2)});
+document.getElementById('open').addEventListener('click',function(){go(1)});
+
+/* hold to bring together */
+var hold=document.getElementById('hold'),hint=document.getElementById('hint'),ignore=false;
+hold.addEventListener('pointerdown',function(e){holding=true;ignore=true;e.preventDefault()});
+['pointerup','pointercancel','pointerleave'].forEach(function(ev){hold.addEventListener(ev,function(){holding=false})});
+hold.addEventListener('contextmenu',function(e){e.preventDefault()});
+hold.addEventListener('click',function(){if(ignore){ignore=false;return}p=Math.min(1,p+.12)});
+function hintText(){return p<.25?"This is me when we’re apart. Small, and dim.":p<.5?"Quiet. A little lonely. Missing you.":p<.75?"Everything feels warmer when you’re close.":"Almost there, baby…"}
+
+/* hearts */
+function burst(n){for(var i=0;i<n;i++){var s=document.createElement('span');s.className='rise';s.textContent=Math.random()>.25?'♥':'✦';
+s.style.left=Math.random()*100+'vw';s.style.color=Math.random()>.5?'#ff8fb1':'#ffe3a3';s.style.fontSize=(16+Math.random()*28)+'px';
+s.style.animationDuration=(4+Math.random()*4)+'s';s.style.animationDelay=(Math.random()*1.5)+'s';
+s.addEventListener('animationend',function(){this.remove()});document.body.appendChild(s)}}
+
+/* finale */
+var after=document.getElementById('after'),choices=document.getElementById('choices');
+document.getElementById('yes').addEventListener('click',function(){choices.classList.add('hide');after.textContent="Thank you, my jaan. I love you more than all my words, the sweet ones and the bad ones. From now on I’ll speak from my heart.";burst(60)});
+document.getElementById('wait').addEventListener('click',function(){after.textContent="Take all the time you need, baby. I’ll be right here, missing you.";this.classList.add('hide')});
+
+/* sky */
+function glow(x,y,r,c,a){var g=ctx.createRadialGradient(x,y,0,x,y,r*5);g.addColorStop(0,'rgba('+c+','+a+')');g.addColorStop(1,'rgba('+c+',0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*5,0,6.283);ctx.fill();
+ctx.fillStyle='rgba(255,255,255,'+Math.min(1,a+.2)+')';ctx.beginPath();ctx.arc(x,y,r*.55,0,6.283);ctx.fill()}
+function lerp(a,b,t){return a+(b-a)*t}
+function frame(now){
+  var dt=Math.min(.05,(now-last)/1000);last=now;var t=now/1000;
+  if(scene===2&&!merged){p=holding?Math.min(1,p+dt*.22):Math.max(0,p-dt*.05);hint.textContent=hintText();
+    if(p>=1){merged=true;holding=false;burst(35);setTimeout(function(){go(3)},1500)}}
+  orbA=lerp(orbA,scene>=2?1:0,dt*2);mergeT=lerp(mergeT,merged?1:0,dt*1.6);
+  ctx.clearRect(0,0,W,H);
+  for(var i=0;i<stars.length;i++){var s=stars[i];ctx.globalAlpha=.25+.75*(.5+.5*Math.sin(t*s.sp+s.ph));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,6.283);ctx.fill()}
+  ctx.globalAlpha=1;
+  if(orbA>.02){
+    var e=p*p*(3-2*p),r=Math.min(W,H)*.03,fy=reduce?0:Math.sin(t*1.3)*6;
+    var y=lerp(H*.4,H*.2,mergeT)+fy;
+    var ax=W*(.16+.34*e),bx=W*(.84-.34*e);
+    if(mergeT<.9){ctx.setLineDash([2,9]);ctx.strokeStyle='rgba(207,200,245,'+(.3*orbA*(1-mergeT))+')';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(ax,y);ctx.lineTo(bx,y);ctx.stroke();ctx.setLineDash([])}
+    var grow=1+mergeT*.9;
+    glow(ax,y,r*grow,'255,143,177',orbA*(.4+.6*e));
+    glow(bx,y,r*grow,'255,227,163',orbA*(.4+.6*e));
   }
-  no.addEventListener('mouseenter',dodge);
-  no.addEventListener('touchstart',dodge,{passive:false});
-  no.addEventListener('click',dodge);
-  yes.addEventListener('click',function(){
-    document.getElementById('ask').classList.add('hidden');
-    no.classList.add('hidden');
-    document.getElementById('reveal').classList.remove('hidden');
-    for(var i=0;i<40;i++){
-      var s=document.createElement('span');
-      s.className='fall';s.textContent=Math.random()>.3?'♥':'✦';
-      s.style.left=Math.random()*100+'vw';
-      s.style.color=Math.random()>.5?'#ff6f91':'#ffd27a';
-      s.style.fontSize=(14+Math.random()*26)+'px';
-      s.style.animationDuration=(3+Math.random()*4)+'s';
-      s.style.animationDelay=(Math.random()*2)+'s';
-      document.body.appendChild(s);
-    }
-  });
+  requestAnimationFrame(frame)
+}
+requestAnimationFrame(frame);
 })();
 </script>
 </body>
